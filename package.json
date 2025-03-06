@@ -38,7 +38,8 @@
     "test": "mocha --exit --slow=75 --timeout=5000",
     "benchmark": "node benchmark",
     "download": "bash ./deps/download.sh",
-    "lzz": "lzz -hx hpp -sx cpp -k BETTER_SQLITE3 -d -hl -sl -e ./src/better_sqlite3.lzz"
+    "lzz": "lzz -hx hpp -sx cpp -k BETTER_SQLITE3 -d -hl -sl -e ./src/better_sqlite3.lzz",
+    "release": "yarn changeset publish"
   },
   "license": "MIT",
   "keywords": [
