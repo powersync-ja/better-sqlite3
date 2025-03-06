@@ -25,7 +25,8 @@
     "mocha": "^10.2.0",
     "nodemark": "^0.3.0",
     "sqlite": "^5.0.1",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "node-gyp": "^11.1.0"
   },
   "scripts": {
     "install": "node-gyp rebuild --release",
