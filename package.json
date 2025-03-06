@@ -1,6 +1,9 @@
 {
   "name": "@powersync/better-sqlite3",
   "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "PowerSync fork of better-sqlite, the fastest and simplest library for SQLite in Node.js.",
   "homepage": "http://github.com/WiseLibs/better-sqlite3",
   "author": "Joshua Wise <joshuathomaswise@gmail.com>",
