@@ -94,6 +94,12 @@ Upgrading your `better-sqlite3` dependency can potentially introduce breaking ch
 - [Contribution rules](./docs/contribution.md)
 - [Code of conduct](./docs/conduct.md)
 
+# Thanks
+
+We appreciate the work contributors and maintainers have put into the upstream `better-sqlite3` package.
+In particular, we'd like to thank [@spinda](https://github.com/spinda/) for contributing support for update,
+commit and rollback hooks!
+
 # License
 
 [MIT](./LICENSE)
