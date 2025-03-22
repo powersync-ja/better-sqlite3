@@ -2,7 +2,7 @@
 //
 
 #include "better_sqlite3.hpp"
-#line 167 "./src/util/macros.lzz"
+#line 165 "./src/util/macros.lzz"
 void SetPrototypeGetter(
 	v8::Isolate* isolate,
 	v8::Local<v8::External> data,
@@ -30,7 +30,7 @@ void SetPrototypeGetter(
 	);
 	#endif
 }
-#line 197 "./src/util/macros.lzz"
+#line 195 "./src/util/macros.lzz"
 #ifndef V8_COMPRESS_POINTERS_IN_SHARED_CAGE
 #define SAFE_NEW_BUFFER(env, data, length, finalizeCallback, finalizeHint) node::Buffer::New(env, data, length, finalizeCallback, finalizeHint)
 #else
@@ -118,18 +118,18 @@ void ThrowRangeError (char const * message)
 #line 40 "./src/util/macros.lzz"
                                           { v8 :: Isolate * isolate = v8 :: Isolate :: GetCurrent ( ) ; isolate->ThrowException(v8::Exception::RangeError(StringFromUtf8(isolate, message, -1)));
 }
-#line 119 "./src/util/macros.lzz"
+#line 117 "./src/util/macros.lzz"
 v8::Local <v8::FunctionTemplate> NewConstructorTemplate (v8::Isolate * isolate, v8::Local <v8::External> data, v8::FunctionCallback func, char const * name)
-#line 124 "./src/util/macros.lzz"
+#line 122 "./src/util/macros.lzz"
   {
         v8::Local<v8::FunctionTemplate> t = v8::FunctionTemplate::New(isolate, func, data);
         t->InstanceTemplate()->SetInternalFieldCount(1);
         t->SetClassName(InternalizedFromLatin1(isolate, name));
         return t;
 }
-#line 130 "./src/util/macros.lzz"
+#line 128 "./src/util/macros.lzz"
 void SetPrototypeMethod (v8::Isolate * isolate, v8::Local <v8::External> data, v8::Local <v8::FunctionTemplate> recv, char const * name, v8::FunctionCallback func)
-#line 136 "./src/util/macros.lzz"
+#line 134 "./src/util/macros.lzz"
   {
         v8::HandleScope scope(isolate);
         recv->PrototypeTemplate()->Set(
@@ -137,9 +137,9 @@ void SetPrototypeMethod (v8::Isolate * isolate, v8::Local <v8::External> data, v
                 v8::FunctionTemplate::New(isolate, func, data, v8::Signature::New(isolate, recv))
         );
 }
-#line 143 "./src/util/macros.lzz"
+#line 141 "./src/util/macros.lzz"
 void SetPrototypeSymbolMethod (v8::Isolate * isolate, v8::Local <v8::External> data, v8::Local <v8::FunctionTemplate> recv, v8::Local <v8::Symbol> symbol, v8::FunctionCallback func)
-#line 149 "./src/util/macros.lzz"
+#line 147 "./src/util/macros.lzz"
   {
         v8::HandleScope scope(isolate);
         recv->PrototypeTemplate()->Set(
@@ -827,7 +827,7 @@ void Database::JS_loadExtension (v8::FunctionCallbackInfo <v8 :: Value> const & 
                                       {
                 Database* db = node :: ObjectWrap :: Unwrap <Database>(info.This());
                 if ( info . Length ( ) <= ( 0 ) || ! info [ 0 ] -> IsString ( ) ) return ThrowTypeError ( "Expected " "first" " argument to be " "a string" ) ; v8 :: Local < v8 :: String > filename = ( info [ 0 ] . As < v8 :: String > ( ) ) ;
-                v8 :: MaybeLocal < v8 :: String > entryPoint = ( { bool isSupplied = info . Length ( ) > ( 1 ) && ! info [ 1 ] -> IsUndefined ( ) ; if ( isSupplied && ! info [ 1 ] -> IsString ( ) ) return ThrowTypeError ( "Expected " "second" " argument to be " "a string" " or undefined" ) ; ( isSupplied ? info [ 1 ] . As < v8 :: String > ( ) : v8 :: MaybeLocal < v8 :: String > ( ) ) ; } ) ;
+                bool isSupplied = info . Length ( ) > ( 1 ) && ! info [ 1 ] -> IsUndefined ( ) ; if ( isSupplied && ! info [ 1 ] -> IsString ( ) ) return ThrowTypeError ( "Expected " "second" " argument to be " "a string" " or undefined" ) ; v8 :: MaybeLocal < v8 :: String > entryPoint = ( isSupplied ? info [ 1 ] . As < v8 :: String > ( ) : v8 :: MaybeLocal < v8 :: String > ( ) ) ; ;
                 if ( ! db -> open ) return ThrowTypeError ( "The database connection is not open" ) ;
                 if ( db -> busy ) return ThrowTypeError ( "This database connection is busy executing a query" ) ;
                 if ( db -> iterators ) return ThrowTypeError ( "This database connection is busy executing a query" ) ;
@@ -849,7 +849,7 @@ void Database::JS_updateHook (v8::FunctionCallbackInfo <v8 :: Value> const & inf
 #line 523 "./src/objects/database.lzz"
                                    {
                 Database* db = node :: ObjectWrap :: Unwrap <Database>(info.This());
-                v8 :: MaybeLocal < v8 :: Function > fn = ( { bool isSupplied = info . Length ( ) > ( 0 ) && ! info [ 0 ] -> IsUndefined ( ) ; if ( isSupplied && ! info [ 0 ] -> IsFunction ( ) ) return ThrowTypeError ( "Expected " "first" " argument to be " "a function" " or undefined" ) ; ( isSupplied ? info [ 0 ] . As < v8 :: Function > ( ) : v8 :: MaybeLocal < v8 :: Function > ( ) ) ; } ) ;
+                bool isSupplied = info . Length ( ) > ( 0 ) && ! info [ 0 ] -> IsUndefined ( ) ; if ( isSupplied && ! info [ 0 ] -> IsFunction ( ) ) return ThrowTypeError ( "Expected " "first" " argument to be " "a function" " or undefined" ) ; v8 :: MaybeLocal < v8 :: Function > fn = ( isSupplied ? info [ 0 ] . As < v8 :: Function > ( ) : v8 :: MaybeLocal < v8 :: Function > ( ) ) ; ;
                 if ( ! db -> open ) return ThrowTypeError ( "The database connection is not open" ) ;
                 if ( db -> busy ) return ThrowTypeError ( "This database connection is busy executing a query" ) ;
                 if ( db -> iterators ) return ThrowTypeError ( "This database connection is busy executing a query" ) ;
@@ -873,7 +873,7 @@ void Database::JS_commitHook (v8::FunctionCallbackInfo <v8 :: Value> const & inf
 #line 545 "./src/objects/database.lzz"
                                    {
                 Database* db = node :: ObjectWrap :: Unwrap <Database>(info.This());
-                v8 :: MaybeLocal < v8 :: Function > fn = ( { bool isSupplied = info . Length ( ) > ( 0 ) && ! info [ 0 ] -> IsUndefined ( ) ; if ( isSupplied && ! info [ 0 ] -> IsFunction ( ) ) return ThrowTypeError ( "Expected " "first" " argument to be " "a function" " or undefined" ) ; ( isSupplied ? info [ 0 ] . As < v8 :: Function > ( ) : v8 :: MaybeLocal < v8 :: Function > ( ) ) ; } ) ;
+                bool isSupplied = info . Length ( ) > ( 0 ) && ! info [ 0 ] -> IsUndefined ( ) ; if ( isSupplied && ! info [ 0 ] -> IsFunction ( ) ) return ThrowTypeError ( "Expected " "first" " argument to be " "a function" " or undefined" ) ; v8 :: MaybeLocal < v8 :: Function > fn = ( isSupplied ? info [ 0 ] . As < v8 :: Function > ( ) : v8 :: MaybeLocal < v8 :: Function > ( ) ) ; ;
                 if ( ! db -> open ) return ThrowTypeError ( "The database connection is not open" ) ;
                 if ( db -> busy ) return ThrowTypeError ( "This database connection is busy executing a query" ) ;
                 if ( db -> iterators ) return ThrowTypeError ( "This database connection is busy executing a query" ) ;
@@ -896,7 +896,7 @@ void Database::JS_rollbackHook (v8::FunctionCallbackInfo <v8 :: Value> const & i
 #line 566 "./src/objects/database.lzz"
                                      {
                 Database* db = node :: ObjectWrap :: Unwrap <Database>(info.This());
-                v8 :: MaybeLocal < v8 :: Function > fn = ( { bool isSupplied = info . Length ( ) > ( 0 ) && ! info [ 0 ] -> IsUndefined ( ) ; if ( isSupplied && ! info [ 0 ] -> IsFunction ( ) ) return ThrowTypeError ( "Expected " "first" " argument to be " "a function" " or undefined" ) ; ( isSupplied ? info [ 0 ] . As < v8 :: Function > ( ) : v8 :: MaybeLocal < v8 :: Function > ( ) ) ; } ) ;
+                bool isSupplied = info . Length ( ) > ( 0 ) && ! info [ 0 ] -> IsUndefined ( ) ; if ( isSupplied && ! info [ 0 ] -> IsFunction ( ) ) return ThrowTypeError ( "Expected " "first" " argument to be " "a function" " or undefined" ) ; v8 :: MaybeLocal < v8 :: Function > fn = ( isSupplied ? info [ 0 ] . As < v8 :: Function > ( ) : v8 :: MaybeLocal < v8 :: Function > ( ) ) ; ;
                 if ( ! db -> open ) return ThrowTypeError ( "The database connection is not open" ) ;
                 if ( db -> busy ) return ThrowTypeError ( "This database connection is busy executing a query" ) ;
                 if ( db -> iterators ) return ThrowTypeError ( "This database connection is busy executing a query" ) ;

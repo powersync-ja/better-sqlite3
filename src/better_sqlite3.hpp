@@ -16,7 +16,7 @@
 #include <node.h>
 #include <node_object_wrap.h>
 #include <node_buffer.h>
-#line 158 "./src/util/macros.lzz"
+#line 156 "./src/util/macros.lzz"
 void SetPrototypeGetter(
 	v8::Isolate* isolate,
 	v8::Local<v8::External> data,
@@ -43,21 +43,21 @@ void ThrowError (char const * message);
 void ThrowTypeError (char const * message);
 #line 40 "./src/util/macros.lzz"
 void ThrowRangeError (char const * message);
-#line 105 "./src/util/macros.lzz"
+#line 103 "./src/util/macros.lzz"
 bool IS_SKIPPED (char c);
-#line 110 "./src/util/macros.lzz"
+#line 108 "./src/util/macros.lzz"
 template <typename T>
-#line 110 "./src/util/macros.lzz"
+#line 108 "./src/util/macros.lzz"
 T * ALLOC_ARRAY (size_t count);
-#line 115 "./src/util/macros.lzz"
+#line 113 "./src/util/macros.lzz"
 template <typename T>
-#line 115 "./src/util/macros.lzz"
+#line 113 "./src/util/macros.lzz"
 void FREE_ARRAY (T * array_pointer);
-#line 119 "./src/util/macros.lzz"
+#line 117 "./src/util/macros.lzz"
 v8::Local <v8::FunctionTemplate> NewConstructorTemplate (v8::Isolate * isolate, v8::Local <v8::External> data, v8::FunctionCallback func, char const * name);
-#line 130 "./src/util/macros.lzz"
+#line 128 "./src/util/macros.lzz"
 void SetPrototypeMethod (v8::Isolate * isolate, v8::Local <v8::External> data, v8::Local <v8::FunctionTemplate> recv, char const * name, v8::FunctionCallback func);
-#line 143 "./src/util/macros.lzz"
+#line 141 "./src/util/macros.lzz"
 void SetPrototypeSymbolMethod (v8::Isolate * isolate, v8::Local <v8::External> data, v8::Local <v8::FunctionTemplate> recv, v8::Local <v8::Symbol> symbol, v8::FunctionCallback func);
 #line 1 "./src/util/constants.lzz"
 class CS
@@ -906,25 +906,25 @@ LZZ_INLINE void SetFrozen (v8::Isolate * isolate, v8::Local <v8::Context> ctx, v
                                                                                                                                                             {
         obj->DefineOwnProperty(ctx, key.Get(isolate), value, static_cast<v8::PropertyAttribute>(v8::DontDelete | v8::ReadOnly)).FromJust();
 }
-#line 105 "./src/util/macros.lzz"
+#line 103 "./src/util/macros.lzz"
 LZZ_INLINE bool IS_SKIPPED (char c)
-#line 105 "./src/util/macros.lzz"
+#line 103 "./src/util/macros.lzz"
                                {
         return c == ' ' || c == ';' || (c >= '\t' && c <= '\r');
 }
-#line 110 "./src/util/macros.lzz"
+#line 108 "./src/util/macros.lzz"
 template <typename T>
-#line 110 "./src/util/macros.lzz"
+#line 108 "./src/util/macros.lzz"
 LZZ_INLINE T * ALLOC_ARRAY (size_t count)
-#line 110 "./src/util/macros.lzz"
+#line 108 "./src/util/macros.lzz"
                                                       {
         return static_cast<T*>(::operator new[](count * sizeof(T)));
 }
-#line 115 "./src/util/macros.lzz"
+#line 113 "./src/util/macros.lzz"
 template <typename T>
-#line 115 "./src/util/macros.lzz"
+#line 113 "./src/util/macros.lzz"
 LZZ_INLINE void FREE_ARRAY (T * array_pointer)
-#line 115 "./src/util/macros.lzz"
+#line 113 "./src/util/macros.lzz"
                                                            {
         ::operator delete[](array_pointer);
 }
