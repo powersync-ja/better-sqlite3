@@ -205,10 +205,7 @@ private:
 
 			v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
-			const int argc = 0;
-			v8::Local<v8::Value> argv[argc] = {};
-
-			v8::MaybeLocal<v8::Value> maybeReturnValue = self->fn.Get(isolate)->Call(context, v8::Undefined(isolate), argc, argv);
+			v8::MaybeLocal<v8::Value> maybeReturnValue = self->fn.Get(isolate)->Call(context, v8::Undefined(isolate), 0, nullptr);
 			v8::Local<v8::Value> returnValue;
 			if (maybeReturnValue.ToLocal(&returnValue)) {
 				return returnValue->BooleanValue(isolate) ? 0 : 1;
@@ -245,11 +242,8 @@ private:
 
 			v8::Local<v8::Context> context = isolate->GetCurrentContext();
 
-			const int argc = 0;
-			v8::Local<v8::Value> argv[argc] = {};
-
 			v8::TryCatch try_catch(isolate);
-			v8::MaybeLocal<v8::Value> maybeReturnValue = self->fn.Get(isolate)->Call(context, v8::Undefined(isolate), argc, argv);
+			v8::MaybeLocal<v8::Value> maybeReturnValue = self->fn.Get(isolate)->Call(context, v8::Undefined(isolate), 0, nullptr);
 			if (maybeReturnValue.IsEmpty()) {
 				self->db->GetState()->was_js_error = true;
 			}
