@@ -2,7 +2,7 @@
 //
 
 #include "better_sqlite3.hpp"
-#line 165 "./src/util/macros.lzz"
+#line 167 "./src/util/macros.lzz"
 void SetPrototypeGetter(
 	v8::Isolate* isolate,
 	v8::Local<v8::External> data,
@@ -30,7 +30,7 @@ void SetPrototypeGetter(
 	);
 	#endif
 }
-#line 195 "./src/util/macros.lzz"
+#line 197 "./src/util/macros.lzz"
 #ifndef V8_COMPRESS_POINTERS_IN_SHARED_CAGE
 #define SAFE_NEW_BUFFER(env, data, length, finalizeCallback, finalizeHint) node::Buffer::New(env, data, length, finalizeCallback, finalizeHint)
 #else
@@ -118,18 +118,18 @@ void ThrowRangeError (char const * message)
 #line 40 "./src/util/macros.lzz"
                                           { v8 :: Isolate * isolate = v8 :: Isolate :: GetCurrent ( ) ; isolate->ThrowException(v8::Exception::RangeError(StringFromUtf8(isolate, message, -1)));
 }
-#line 117 "./src/util/macros.lzz"
+#line 119 "./src/util/macros.lzz"
 v8::Local <v8::FunctionTemplate> NewConstructorTemplate (v8::Isolate * isolate, v8::Local <v8::External> data, v8::FunctionCallback func, char const * name)
-#line 122 "./src/util/macros.lzz"
+#line 124 "./src/util/macros.lzz"
   {
         v8::Local<v8::FunctionTemplate> t = v8::FunctionTemplate::New(isolate, func, data);
         t->InstanceTemplate()->SetInternalFieldCount(1);
         t->SetClassName(InternalizedFromLatin1(isolate, name));
         return t;
 }
-#line 128 "./src/util/macros.lzz"
+#line 130 "./src/util/macros.lzz"
 void SetPrototypeMethod (v8::Isolate * isolate, v8::Local <v8::External> data, v8::Local <v8::FunctionTemplate> recv, char const * name, v8::FunctionCallback func)
-#line 134 "./src/util/macros.lzz"
+#line 136 "./src/util/macros.lzz"
   {
         v8::HandleScope scope(isolate);
         recv->PrototypeTemplate()->Set(
@@ -137,9 +137,9 @@ void SetPrototypeMethod (v8::Isolate * isolate, v8::Local <v8::External> data, v
                 v8::FunctionTemplate::New(isolate, func, data, v8::Signature::New(isolate, recv))
         );
 }
-#line 141 "./src/util/macros.lzz"
+#line 143 "./src/util/macros.lzz"
 void SetPrototypeSymbolMethod (v8::Isolate * isolate, v8::Local <v8::External> data, v8::Local <v8::FunctionTemplate> recv, v8::Local <v8::Symbol> symbol, v8::FunctionCallback func)
-#line 147 "./src/util/macros.lzz"
+#line 149 "./src/util/macros.lzz"
   {
         v8::HandleScope scope(isolate);
         recv->PrototypeTemplate()->Set(
@@ -1020,7 +1020,7 @@ BindMap * Statement::GetBindMap (v8::Isolate * isolate)
                 int param_count = sqlite3_bind_parameter_count(handle);
                 for (int i = 1; i <= param_count; ++i) {
                         const char* name = sqlite3_bind_parameter_name(handle, i);
-                        if (name != NULL) bind_map->Add(isolate, name + 1, i);
+                        if ( ( name != NULL && name [ 0 ] != '?' ) ) bind_map->Add(isolate, name + 1, i);
                 }
                 has_bind_map = true;
                 return bind_map;
@@ -2221,12 +2221,19 @@ void Binder::Fail (void (* Throw) (char const *), char const * message)
 int Binder::NextAnonIndex ()
 #line 63 "./src/util/binder.lzz"
                             {
-                while (sqlite3_bind_parameter_name(handle, ++anon_index) != NULL) {}
+
+                while (true) {
+                        const char* name = sqlite3_bind_parameter_name(handle, ++anon_index);
+                        if (! ( name != NULL && name [ 0 ] != '?' ) ) {
+                                break;
+                        }
+                }
+
                 return anon_index;
 }
-#line 69 "./src/util/binder.lzz"
+#line 76 "./src/util/binder.lzz"
 void Binder::BindValue (v8::Isolate * isolate, v8::Local <v8::Value> value, int index)
-#line 69 "./src/util/binder.lzz"
+#line 76 "./src/util/binder.lzz"
                                                                                     {
                 int status = Data::BindValueFromJS(isolate, handle, index, value);
                 if (status != SQLITE_OK) {
@@ -2245,9 +2252,9 @@ void Binder::BindValue (v8::Isolate * isolate, v8::Local <v8::Value> value, int 
                         assert(false);
                 }
 }
-#line 90 "./src/util/binder.lzz"
+#line 97 "./src/util/binder.lzz"
 int Binder::BindArray (v8::Isolate * isolate, v8::Local <v8::Array> arr)
-#line 90 "./src/util/binder.lzz"
+#line 97 "./src/util/binder.lzz"
                                                                       {
                 v8 :: Local < v8 :: Context > ctx = isolate -> GetCurrentContext ( ) ;
                 uint32_t length = arr->Length();
@@ -2269,9 +2276,9 @@ int Binder::BindArray (v8::Isolate * isolate, v8::Local <v8::Array> arr)
                 }
                 return len;
 }
-#line 116 "./src/util/binder.lzz"
+#line 123 "./src/util/binder.lzz"
 int Binder::BindObject (v8::Isolate * isolate, v8::Local <v8::Object> obj, Statement * stmt)
-#line 116 "./src/util/binder.lzz"
+#line 123 "./src/util/binder.lzz"
                                                                                          {
                 v8 :: Local < v8 :: Context > ctx = isolate -> GetCurrentContext ( ) ;
                 BindMap* bind_map = stmt->GetBindMap(isolate);
@@ -2308,9 +2315,9 @@ int Binder::BindObject (v8::Isolate * isolate, v8::Local <v8::Object> obj, State
 
                 return len;
 }
-#line 160 "./src/util/binder.lzz"
+#line 167 "./src/util/binder.lzz"
 Binder::Result Binder::BindArgs (v8::FunctionCallbackInfo <v8 :: Value> const & info, int argc, Statement * stmt)
-#line 160 "./src/util/binder.lzz"
+#line 167 "./src/util/binder.lzz"
                                                                         {
                 v8 :: Isolate * isolate = info . GetIsolate ( ) ;
                 int count = 0;

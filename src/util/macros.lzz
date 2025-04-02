@@ -88,6 +88,8 @@ void ThrowRangeError(const char* message) { EasyIsolate; isolate->ThrowException
 	if (stmt->locked)                                                          \
 		return ThrowTypeError("This statement is busy executing a query")
 
+#define IS_NAMED_PARAMETER(name) (name != NULL && name[0] != '?')
+
 #define first() 0
 #define second() 1
 #define third() 2

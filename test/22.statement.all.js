@@ -99,6 +99,7 @@ describe('Statement#all()', function () {
 		const rows = [{ a: 'foo', b: 1, c: 3.14, d: Buffer.alloc(4).fill(0xdd), e: null }];
 		const SQL1 = 'SELECT * FROM entries WHERE a=? AND b=? AND c=? AND d=? AND e IS ?';
 		const SQL2 = 'SELECT * FROM entries WHERE a=@a AND b=@b AND c=@c AND d=@d AND e IS @e';
+		const SQL3 = 'SELECT * FROM entries WHERE a=?1 AND b=?1';
 		let result = this.db.prepare(SQL1).all('foo', 1, 3.14, Buffer.alloc(4).fill(0xdd), null);
 		expect(result).to.deep.equal(rows);
 
@@ -114,6 +115,9 @@ describe('Statement#all()', function () {
 		result = this.db.prepare(SQL2).all({ a: 'foo', b: 1, c: 3.14, d: Buffer.alloc(4).fill(0xaa), e: undefined });
 		expect(result).to.deep.equal([]);
 
+		result = this.db.prepare(SQL3).all(123);
+		expect(result).to.deep.equal([]);
+
 		expect(() =>
 			this.db.prepare(SQL2).all({ a: 'foo', b: 1, c: 3.14, d: Buffer.alloc(4).fill(0xdd) })
 		).to.throw(RangeError);
@@ -124,6 +128,18 @@ describe('Statement#all()', function () {
 
 		expect(() =>
 			this.db.prepare(SQL2).all({})
+		).to.throw(RangeError);
+
+		expect(() =>
+			this.db.prepare(SQL3).all({})
+		).to.throw(RangeError);
+
+		expect(() =>
+			this.db.prepare(SQL3).all([])
+		).to.throw(RangeError);
+
+		expect(() =>
+			this.db.prepare(SQL3).all(['one', 'too many'])
 		).to.throw(RangeError);
 	});
 });
