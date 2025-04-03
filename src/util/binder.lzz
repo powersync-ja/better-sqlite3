@@ -61,7 +61,14 @@ private:
 	}
 
 	int NextAnonIndex() {
-		while (sqlite3_bind_parameter_name(handle, ++anon_index) != NULL) {}
+		// Find the next parameter index that isn't a named variable.
+		while (true) {
+			const char* name = sqlite3_bind_parameter_name(handle, ++anon_index);
+			if (!IS_NAMED_PARAMETER(name)) {
+				break;
+			}
+		}
+
 		return anon_index;
 	}
 
